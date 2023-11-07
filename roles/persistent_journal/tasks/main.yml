@@ -1,0 +1,9 @@
+- name: Ensure systemd logs are persisted
+  community.general.ini_file:
+    path: /etc/systemd/journald.conf
+    section: Journal
+    option: Storage
+    value: persistent
+    
+- name: Restart journald
+  ansible.builtin.command: systemctl restart systemd-journald

@@ -1,0 +1,15 @@
+argument_specs:
+  main:
+    options:
+      path:
+        description: 'Path to config file'
+        type: 'str'
+        required: true
+      name:
+        description: 'Full name of the option (e.g. Unattended-Upgrade::Mail)'
+        type: 'str'
+        required: true
+      value:
+        description: 'String value to set (non-string options are not supported)'
+        type: 'str'
+        required: true

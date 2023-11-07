@@ -1,0 +1,20 @@
+- name: Install needrestart
+  ansible.builtin.apt:
+    name: needrestart
+    update_cache: true
+
+- name: Set needrestart mode to automatic
+  ansible.builtin.include_role:
+    name: perl_string_option
+  args:
+    path: /etc/needrestart/needrestart.conf
+    name: $nrconf{restart}
+    value: a
+
+- name: Copy mailing script
+  ansible.builtin.template:
+    src: mail-about-restart.sh.j2
+    dest: /root/mail-about-restart.sh
+    owner: root
+    group: root
+    mode: u=rwx,g=,o=

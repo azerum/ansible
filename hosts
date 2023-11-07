@@ -1,0 +1,5 @@
+[main]
+server 
+
+[main:vars]
+ansible_connection=ssh

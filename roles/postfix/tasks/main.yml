@@ -1,0 +1,85 @@
+- name: Install postfix
+  ansible.builtin.apt:
+    name: postfix
+
+- name: Install library for SASL auth
+  ansible.builtin.apt:
+    name: libsasl2-modules
+
+- name: Ensure config file is not readable by others
+  ansible.builtin.file:
+    path: "{{ _path }}"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=
+
+- name: Notify about long delayed mails
+  ansible.builtin.include_role:
+    name: postfix_option
+  vars:
+    path: "{{ _path }}"
+    name: delay_warning_time
+    value: 1h
+
+- name: Always use TLS for outgoing mail
+  ansible.builtin.include_role:
+    name: postfix_option
+  vars:
+    path: "{{ _path }}"
+    name: smtp_tls_security_level
+    value: secure
+
+- name: Use Gmail as relay host
+  ansible.builtin.include_role:
+    name: postfix_option
+  vars:
+    path: "{{ _path }}"
+    name: relayhost
+    value: "smtp.gmail.com:587"
+  
+- name: Don't accept mail from the Internet
+  ansible.builtin.include_role:
+    name: postfix_option
+  vars:
+    path: "{{ _path }}"
+    name: inet_interfaces
+    value: localhost
+
+- name: Use SASL auth
+  ansible.builtin.include_role:
+    name: postfix_option
+  vars:
+    path: "{{ _path }}"
+    name: smtp_sasl_auth_enable
+    value: "yes"
+
+- name: Add Gmail credentials
+  ansible.builtin.include_role:
+    name: postfix_option
+  vars:
+    path: "{{ _path }}"
+    name: smtp_sasl_password_maps
+    value: "static:{{ sender_mail }}:{{ sender_password }}"
+
+- name: Don't set auth options to be surely compatible with Gmail
+  ansible.builtin.include_role:
+    name: postfix_option
+  vars:
+    path: "{{ _path }}"
+    name: smtp_sasl_security_options
+    value: ""
+
+- name: Reload postfix
+  ansible.builtin.systemd:
+    name: postfix.service
+    state: reloaded
+
+- name: Get other daemon status
+  ansible.builtin.systemd:
+    name: "postfix@-.service"
+  register: postfix_status
+
+- name: Assert other daemon is running
+  ansible.builtin.assert:
+    that:
+      - postfix_status.status.ActiveState == 'active'

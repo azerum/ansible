@@ -1,0 +1,9 @@
+---
+- name: Roles test
+  hosts: server
+
+  roles:
+    - role: postfix
+      vars:
+        sender_mail: apprising.hue@gmail.com
+        sender_password: bxzeepbrrcybvdkm

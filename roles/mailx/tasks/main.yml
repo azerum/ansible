@@ -1,0 +1,8 @@
+- name: Check if mailx is installed
+  ansible.builtin.shell: command -v mailx
+  register: mailx_exists
+
+- name: Install bsd-mailx if not
+  ansible.builtin.apt:
+    name: bsd-mailx
+  when: mailx_exists.rc != 0

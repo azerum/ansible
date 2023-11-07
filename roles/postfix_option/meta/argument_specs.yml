@@ -1,0 +1,14 @@
+argument_specs:
+  main:
+    options:
+      path:
+        description: 'Path to config file'
+        type: 'str'
+        required: true
+      name:
+        description: 'Full name of the option'
+        type: 'str'
+        required: true
+      value:
+        description: 'Value to set'
+        required: true

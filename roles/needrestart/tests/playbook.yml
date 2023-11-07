@@ -1,0 +1,8 @@
+- name: Needrestart test
+  hosts: server
+
+  roles:
+    - role: postfix
+      
+    - mailx
+    - needr

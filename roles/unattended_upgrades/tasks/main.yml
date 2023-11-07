@@ -1,0 +1,22 @@
+- name: Ensure only root can read mail in the file
+  ansible.builtin.file:
+    path: "{{ _path }}"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=
+
+- name: Configure mail
+  ansible.builtin.include_role:
+    name: perl_string_option
+  vars:
+    path: "{{ _path }}"
+    name: Unattended-Upgrade::Mail
+    value: "{{ receiver_mail }}"
+
+- name: Mail on change
+  ansible.builtin.include_role:
+    name: perl_string_option
+  vars:
+    path: "{{ _path }}"
+    name: Unattended-Upgrade::MailReport
+    value: on-change

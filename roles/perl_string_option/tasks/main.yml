@@ -1,0 +1,5 @@
+- name: Set {{ name }}
+  ansible.builtin.lineinfile:
+    path: "{{ path }}"
+    regexp: '^(//)?\s*{{ name }}\b'
+    line: '{{ name }} "{{ value }}";'
