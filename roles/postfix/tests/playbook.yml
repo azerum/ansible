@@ -1,0 +1,13 @@
+- name: Postfix tests
+  hosts: server
+
+  vars_files:
+    - ./vars.yml
+
+  roles:
+    - postfix
+    - mailx
+
+  tasks:
+    - name: Send mail
+      ansible.builtin.shell: 'echo "Hello" | mail "{{ receiver_mail }}"'

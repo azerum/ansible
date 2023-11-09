@@ -2,8 +2,9 @@
 - name: Roles test
   hosts: server
 
+  vars_files:
+    - ./vars.yml
+
   roles:
-    - role: postfix
-      vars:
-        sender_mail: apprising.hue@gmail.com
-        sender_password: bxzeepbrrcybvdkm
+    - postfix
+    - unattended_upgrades

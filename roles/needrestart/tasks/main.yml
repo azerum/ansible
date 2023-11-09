@@ -10,11 +10,3 @@
     path: /etc/needrestart/needrestart.conf
     name: $nrconf{restart}
     value: a
-
-- name: Copy mailing script
-  ansible.builtin.template:
-    src: mail-about-restart.sh.j2
-    dest: /root/mail-about-restart.sh
-    owner: root
-    group: root
-    mode: u=rwx,g=,o=

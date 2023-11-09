@@ -1,0 +1,7 @@
+argument_specs:
+  main:
+    options:
+      receiver_mail:
+        description: 'Email where upgrades notifications will be sent'
+        type: 'str'
+        required: true
