@@ -1,3 +1,4 @@
 vars.yml
 *.vars.yml
 **/vars/main.yml
+.DS_Store

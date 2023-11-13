@@ -1,0 +1,27 @@
+- name: Install mariadb-server
+  ansible.builtin.apt:
+    name: mariadb-server
+
+- name: Ensure MariaDB listens only on the Unix socket
+  community.general.ini_file:
+    path: /etc/mysql/my.cnf
+    section: server
+    option: skip-networking
+    value: 'TRUE'
+  register: my_cnf
+
+- name: Restart MariaDB if needed
+  ansible.builtin.command:
+    systemctl restart mariadb.service
+  when: my_cnf.changed
+
+- name: Create mariadb-users group
+  ansible.builtin.group:
+    name: mariadb-users
+
+- name: Ensure only mariadb-users can connect to MariaDB
+  ansible.builtin.file:
+    path: /run/mysqld/mysqld.sock
+    owner: mysql
+    group: mariadb-users
+    mode: u=rwx,g=rw,o=

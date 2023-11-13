@@ -2,9 +2,5 @@
 - name: Roles test
   hosts: server
 
-  vars_files:
-    - ./vars.yml
-
   roles:
-    - postfix
-    - unattended_upgrades
+    - mariadb
