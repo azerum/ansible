@@ -1,0 +1,9 @@
+- name: PHP-FPM tasks
+  ansible.builtin.include_tasks: "{{ item }}"
+  loop:
+    - 1-installation.yml
+    - 2-users-and-groups.yml
+    - 3-config-files-permissions.yml
+    - 4-created-files-permissions.yml
+    - 5-website-pool.yml
+    - 6-run-as-non-root.yml

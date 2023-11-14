@@ -1,0 +1,24 @@
+- name: Create the systemd config directory
+  ansible.builtin.file:
+    path: "{{ _systemd_config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    # X means 'executable for directories or files that already were executable' 
+    mode: u=rwX,g=r,o=
+
+- name: Ensure that php-fpm runs as non-root
+  ansible.builtin.copy:
+    src: main.conf
+    dest: "{{ _systemd_config_dir }}/main.conf"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=
+    
+- name: Reload systemd unit files
+  ansible.builtin.command:
+    systemctl daemon-reload
+
+- name: Restart php-fpm
+  ansible.builtin.command:
+    "systemctl restart {{ _full_service_name }}"

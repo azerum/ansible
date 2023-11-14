@@ -1,0 +1,19 @@
+- name: Give php-fpm readonly access to /etc/php
+  ansible.builtin.file:
+    path: /etc/php
+    state: directory
+    owner: root
+    group: php-fpm
+
+    # Don't give read permission to PHP-FPM - prevent leaks about
+    # other PHP versions?
+    mode: u=rwx,g=x,o=
+
+- name: Give php-fpm readonly access to /etc/php/8.2
+  ansible.builtin.file:
+    path: /etc/php/8.2
+    state: directory
+    recurse: true
+    owner: root
+    group: php-fpm
+    mode: u=rwx,g=rx,o=

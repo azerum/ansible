@@ -1,0 +1,27 @@
+[website]
+
+listen = /var/php-fpm/sockets/website
+
+; The socket file will be created by php-fpm user. As an owner,
+; they can set file group, but not the file owner!
+
+; No special bits, u=rw, g=, o=rw
+; While all other users have rw permissions, the containing directory
+; gives x permission only for php-fpm-users, so other users can't reach
+; this file 
+listen.mode = 0606
+
+pm = dynamic
+
+; The maximum number of child processes that will be created. Each
+; child serves at most one request at a time, so this sets the maximum
+; number of simultaneous requests that the server will handle 
+pm.max_children = {{ pm_max_children }}
+
+pm.min_spare_servers = 1
+
+; 80% of maximum children. So 20% of the memory is left free
+; when the server is idling. Hand-wavy guess value
+pm.max_spare_servers = {{ [pm_max_children * 0.8 | round(0, 'floor') | int, 1] | max }}
+
+chdir = /var/www/website

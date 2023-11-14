@@ -1,0 +1,19 @@
+- name: Install php-fpm from stable Debian repo
+  ansible.builtin.apt:
+    name: php-fpm
+
+- name: Find the installed PHP version
+  ansible.builtin.shell:
+    dpkg -s php-fpm | grep Version | awk '{ print $2 }'
+  register: dpkg_output
+
+- name: Assert that the installed PHP is 8.2.X
+  ansible.builtin.assert:
+    that:
+      # Debian packages have version format
+      # [epoch:]upstream_version[-debian_revision]
+      # See https://www.debian.org/doc/debian-policy/ch-controlfields.html#version
+      #
+      # We check that `upstream_version` starts* with 8.2
+      # * - see https://docs.ansible.com/ansible/latest/collections/ansible/builtin/regex_test.html
+      - 'dpkg_output.stdout | trim is regex("(\d+:)?8.2")'

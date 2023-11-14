@@ -3,4 +3,5 @@
   hosts: server
 
   roles:
-    - mariadb
+    - persistent_journal
+    - php_fpm

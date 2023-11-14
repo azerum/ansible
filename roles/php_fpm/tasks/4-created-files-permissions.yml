@@ -1,0 +1,33 @@
+- name: Create directory for files created by php-fpm
+  ansible.builtin.file:
+    path: /var/php-fpm
+    state: directory
+    owner: root
+    group: php-fpm
+    mode: u=rwx,g=rwx,o=
+
+- name: Update `pid` in php-fpm.conf
+  community.general.ini_file:
+    path: "{{ _etc_dir }}/php-fpm.conf"
+    section: global
+    option: pid
+    value: /var/php-fpm/pid
+
+- name: Update `error_log` in php-fpm.conf
+  community.general.ini_file:
+    path: "{{ _etc_dir }}/php-fpm.conf"
+    section: global
+    option: error_log
+    value: /var/php-fpm/error.log
+
+- name: Create directory for sockets
+  # 1. Set x permissions only for php-fpm-users, so only said
+  # users can access the socket
+  # 2. Set the setgid bit, so the new files created in this directory
+  # will have the php-fpm-users group*
+  ansible.builtin.file:
+    path: "/var/php-fpm/sockets"
+    state: directory
+    owner: php-fpm
+    group: php-fpm-users
+    mode: u=rwx,g=s,o=

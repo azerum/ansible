@@ -1,0 +1,5 @@
+_full_service_name: php8.2-fpm.service
+_systemd_config_dir: /etc/systemd/system/php8.2-fpm.service.d
+_etc_dir: /etc/php/8.2/fpm
+
+pm_max_children: 2

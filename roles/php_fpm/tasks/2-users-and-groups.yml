@@ -1,0 +1,13 @@
+- name: Create php-fpm group for php-fpm itself
+  ansible.builtin.group:
+    name: php-fpm
+
+- name: Create php-fpm user
+  ansible.builtin.user:
+    name: php-fpm
+    groups: 
+      - php-fpm
+
+- name: Create php-fpm-users services that talk to php-fpm
+  ansible.builtin.group:
+    name: php-fpm-users

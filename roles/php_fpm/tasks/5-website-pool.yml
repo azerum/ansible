@@ -1,0 +1,20 @@
+- name: Configure website pool
+  ansible.builtin.template:
+    src: website.conf.j2
+    dest: "{{ _etc_dir }}/pool.d/website.conf"
+    owner: root
+    group: php-fpm
+    mode: u=rwx,g=r,o=
+
+- name: Disable default pool
+  ansible.builtin.command:
+    # This works because php-fpm.conf only includes *.conf files
+    "mv {{ _etc_dir }}/pool.d/www.conf {{ _etc_dir }}/pool.d/www.conf.disabled"
+
+- name: Create website directory (/var/www/website)
+  ansible.builtin.file:
+    path: /var/www/website
+    state: directory
+    owner: root
+    group: php-fpm
+    mode: u=rwx,g=rx,o=
