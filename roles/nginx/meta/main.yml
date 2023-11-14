@@ -1,0 +1,4 @@
+dependencies:
+  - role: https_authbind
+    vars:
+      allowed_group: nginx

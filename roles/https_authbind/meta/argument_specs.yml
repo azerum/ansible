@@ -1,0 +1,7 @@
+argument_specs:
+  main:
+    options:
+      allowed_group: 
+        description: Users of this group will be allowed to listen on 443
+        type: str
+        required: true

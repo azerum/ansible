@@ -3,5 +3,4 @@
   hosts: server
 
   roles:
-    - persistent_journal
-    - php_fpm
+    - nginx

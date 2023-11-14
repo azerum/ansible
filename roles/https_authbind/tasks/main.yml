@@ -1,0 +1,12 @@
+- name: Install authbind
+  ansible.builtin.apt:
+    name: authbind
+
+- name: Configure port 443
+  ansible.builtin.file:
+    path: /etc/authbind/byport/443
+    state: touch
+    owner: root
+    group: "{{ allowed_group }}"
+    # Execute bit controls the authbind behavior
+    mode: u=rwx,g=x,o=
